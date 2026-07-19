@@ -195,10 +195,10 @@ export class SlotAction extends Component {
             .call(() => {
                 AudioManager.instance.playSound(Clips.pin_3);
                 this.slot_color = null;
-                //TODO:进度条更新
                 let eliminated = this.get_pin_num();
                 this.clear_pins();
                 Global.current_level_pin_move_num += eliminated;
+                Global.load_action?.refresh();
                 director.emit(events.check_complete, this)
             })
             .start();

@@ -7,6 +7,7 @@ import { LayerBtnAction } from "../Action/LayerBtnAction";
 import { LayerEmptyAction } from "../Action/LayerEmptyAction";
 import { LayerRootAction } from "../Action/LayerRootAction";
 import { LayerSlotAction } from "../Action/LayerSlotAction";
+import { LoadAction } from "../Action/LoadAction";
 import { MenuAction } from "../Action/MenuAction";
 import { PropsAction } from "../Action/PropsAction";
 import { ShowLevelAction } from "../Action/ShowLevelAction";
@@ -35,6 +36,7 @@ export class Global {
     static props_action: PropsAction;
     static guide_action:GuideAction;
     static menu_action: MenuAction;
+    static load_action: LoadAction;
     
     static current_level_pin_total=0;//当前关卡的钉子总数
     static current_level_pin_move_num=0;//当前关卡的钉子被移走数量

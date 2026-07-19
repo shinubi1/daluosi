@@ -12,6 +12,7 @@ import { TipsAction } from './Action/TipsAction';
 import { BucketAction } from './Action/BucketAction';
 import { PropsAction } from './Action/PropsAction';
 import { GuideAction } from './Action/GuideAction';
+import { LoadAction } from './Action/LoadAction';
 import { Global } from './util/Global';
 import { LevelStorage } from './util/LevelStorage';
 import { events } from './util/Enums';
@@ -49,6 +50,8 @@ export class Main extends Component {
     props_action: PropsAction
     @property(GuideAction)
     guide_action: GuideAction
+    @property(LoadAction)
+    load_action: LoadAction
 
     @property({ type: CCInteger, tooltip: "基础扳手的消耗,实际消耗为lvl*need_coins" })
     need_coins: number;
@@ -72,6 +75,7 @@ export class Main extends Component {
         Global.props_action = this.props_action;
         Global.guide_action = this.guide_action;
         Global.menu_action = this.menu;
+        if (this.load_action) Global.load_action = this.load_action;
         let stored_sound = localStorage.getItem('sound_switch');
         if (stored_sound !== null) {
             Global.sound_switch = stored_sound === '1';
@@ -102,6 +106,7 @@ export class Main extends Component {
         Global.Show_level_action.show_level();
         //TODO:重置技能限制
         //TODO:初始化显示金币
+        Global.load_action?.refresh();
         Global.is_check=false;
     }
     next_level_check_complete(slotAction:SlotAction) {
