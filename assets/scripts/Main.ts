@@ -71,6 +71,11 @@ export class Main extends Component {
         Global.bucket_action = this.buc_action;
         Global.props_action = this.props_action;
         Global.guide_action = this.guide_action;
+        Global.menu_action = this.menu;
+        let stored_sound = localStorage.getItem('sound_switch');
+        if (stored_sound !== null) {
+            Global.sound_switch = stored_sound === '1';
+        }
         this.restart_game();
     }
 
@@ -83,6 +88,8 @@ export class Main extends Component {
 
     start_level(_level: number) {
         Global.is_check=true;
+        //更新当前关卡
+        Global.current_level=_level;
         //记录关卡信息
         LevelStorage.record_current_level(_level);
         //重置 钉子 金币等信息

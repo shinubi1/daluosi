@@ -1,4 +1,4 @@
-import { _decorator, Color, Component, director, easing, Node, Sprite, tween, UITransform, Vec2, Vec3 } from 'cc';
+import { _decorator, Color, Component, director, easing, Input, Node, Sprite, tween, UITransform, Vec2, Vec3 } from 'cc';
 import { ColorData } from '../ColorData';
 import { HoleAction } from './HoleAction';
 import { Tool } from '../util/Tool';
@@ -26,6 +26,14 @@ export class SlotAction extends Component {
     protected onLoad(): void {
         this.default_position = this.node.getPosition().clone();
         this.default_lock = this.lock.active;
+        this.node.on(Input.EventType.TOUCH_START, this.on_touch, this);
+    }
+
+    private on_touch(): void {
+        if (Global.is_check) return;
+        if (!this.isLocked) return;
+        AudioManager.instance.playSound(Clips.btn_1);
+        Global.props_action?.open('props_4', this);
     }
 
     init_slot() {
@@ -172,6 +180,7 @@ export class SlotAction extends Component {
     }
 
     private full_complete() {
+        // 移除盒子
         Global.coins_action.put_coins(this.get_pin_num(), this.node.getWorldPosition())
         let to_position_1 = this.node.getPosition().clone();
         let to_position = this.node.getPosition().clone();
@@ -187,8 +196,9 @@ export class SlotAction extends Component {
                 AudioManager.instance.playSound(Clips.pin_3);
                 this.slot_color = null;
                 //TODO:进度条更新
+                let eliminated = this.get_pin_num();
                 this.clear_pins();
-                //TODO:检查是否全部消除，关卡结束
+                Global.current_level_pin_move_num += eliminated;
                 director.emit(events.check_complete, this)
             })
             .start();
@@ -238,6 +248,7 @@ export class SlotAction extends Component {
     }
     //读取钉子颜色放入插槽盒
     load_pin() {
+        if (!this.slot_color) return;
         let pin_arr: PinAction[] = [];
         //TODO:获取与垃圾桶当前颜色ID匹配的螺丝钉数组
         //获取与当前插槽盒颜色相匹配的预备孔位的钉子

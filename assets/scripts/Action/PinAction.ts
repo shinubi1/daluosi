@@ -38,6 +38,7 @@ export class PinAction extends Component {
 
     }
     touch_start(e: EventTouch) {
+        Global.guide_action?.reset();
         if(Global.is_check){
             console.log("is check ");
             return;

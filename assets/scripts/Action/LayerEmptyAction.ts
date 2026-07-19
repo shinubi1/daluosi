@@ -25,6 +25,15 @@ export class LayerEmptyAction extends Component {
             empty_hole.getComponent(EmptyHoleAction)?.get_pin_arr_by_color_id(color_id,pin_arr);
         })
     }
+    public is_full(): boolean {
+        for (let i = 0; i < this.node.children.length; i++) {
+            let empty_hole_action = this.node.children[i].getComponent(EmptyHoleAction);
+            if (empty_hole_action?.can_able_put()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 

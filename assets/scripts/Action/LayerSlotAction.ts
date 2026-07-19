@@ -3,6 +3,7 @@ import { SlotAction } from './SlotAction';
 import { ColorData } from '../ColorData';
 import { PinAction } from './PinAction';
 import { events } from '../util/Enums';
+import { Global } from '../util/Global';
 const { ccclass, property } = _decorator;
 
 @ccclass('LayerSlotAction')
@@ -71,6 +72,10 @@ export class LayerSlotAction extends Component {
         if(slot){
             console.log("check_empty_hole",slot.node.name);
             slot.load_pin();
+        }
+        // 自动装载后如果空槽位还是满的，说明玩家卡死
+        if (Global.layer_empty_action.is_full()) {
+            Global.game_over_action.open();
         }
     }
 }
